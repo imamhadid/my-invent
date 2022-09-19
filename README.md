@@ -1,10 +1,11 @@
 <p align="center">
 
-<img align='right' src="./public/img/logo.png" width="200">
+<img src="./public/img/logo.png" width="150">
 
 My Invent
 
 </p>
+
 
 <p align="center">
 
@@ -39,7 +40,6 @@ website inventaris barang
 ### Guide
 
 - Make sure your PHP version is 8.0 or higher, check open cli `php -v`
- - download php 8.0 or 8.1 <a herf="https://www.php.net/downloads.php"> link </a>
 - Clone repository `git clone https://github.com/imamhadid/my-invent.git`
 - Install composer in directory `composer i`
 - create `.env` command cli `cp .env.example .env`

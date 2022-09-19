@@ -46,6 +46,7 @@ website inventaris barang
 - Artisan key generate `php artisan key:generate`
 - Create DB (default name from `.env` is `laravel`)
 - Install migration and seed `php artisan migrate --seed`
-- Run `php artisan serve` and `npm install&&npm run dev`
+- build `npm install&&npm run build`
+- Run `php artisan serve`
 - Enjoy
 

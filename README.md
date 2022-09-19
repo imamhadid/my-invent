@@ -39,6 +39,9 @@ website inventaris barang
 
 ### Guide
 
+Video
+`https://www.loom.com/share/33daa0be71f04b00b0b94d9960d336b5`
+
 - Make sure your PHP version is 8.0 or higher, check open cli `php -v`
 - Clone repository `git clone https://github.com/imamhadid/my-invent.git`
 - Install composer in directory `composer i`

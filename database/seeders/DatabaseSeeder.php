@@ -22,5 +22,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin123')
         ]);
+
+        \App\Models\Inventori::create([
+            'id' => 1,
+            'name' => 'Jaket Talon TI 22',
+            'description' => 'Jaket kebanggan talon',
+            'type' => 'pic',
+            'photo' => 'no photo',
+            'current'=> 1 ,
+            'total' => 1 ,
+        ]);
     }
 }

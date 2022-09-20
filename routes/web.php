@@ -21,3 +21,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/home', [App\Http\Controllers\HomeController::class, 'store'])->name('store');
+Route::delete( '/home/{id}', [App\Http\Controllers\HomeController::class, 'destroy'])->name('delete');
+Route::post('/home/{id}', [ App\Http\Controllers\HomeController::class, 'update'])->name('update');
+Route::post('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');

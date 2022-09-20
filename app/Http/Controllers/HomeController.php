@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventori;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,34 +26,81 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $total_space = disk_total_space("/");
-        $free_space = disk_free_space("/");
-        // dd($this->dataSize($total_space));
 
-        $datas = [
-            'data' => [
-                'space_text' => [
-                    'total_text' => $this->dataSize($total_space),
-                    'free_text' => $this->dataSize($free_space),
-                ],
-                'space' => [
-                    'total' => $total_space,
-                    'free' => $free_space,
-                ],
-            ]
+        $inventor = Inventori::get();
+        $auth = User::where('id', Auth::user()->id)->get();
+
+        $data_invents = [
+            'data' => $inventor,
+            'auth' => $auth
         ];
 
-        return view('home', compact('datas'));
+        return view('home', compact('data_invents'));
     }
 
-    function dataSize($Bytes)
+    public function update(Request $request,$id)
     {
-        $Type = array("", "kilo", "mega", "giga", "tera");
-        $counter = 0;
-        while ($Bytes >= 1024) {
-            $Bytes /= 1024;
-            $counter++;
+
+        $inventor = Inventori::where('id',$id)->first();
+        if($request->photo) {
+            $host = $request->getSchemeAndHttpHost();
+
+            $photo = $request->photo;
+            $fileNamePhoto = time() . '_' . $photo->getClientOriginalName();
+            $fileNamePhoto2 = $host . '/storage/' . $fileNamePhoto;
+            $photo->move(public_path('storage'), $fileNamePhoto);
+
+        } else {
+            $fileNamePhoto2 = $inventor->photo;
         }
-        return ("" . $Bytes . " " . $Type[$counter] . "bytes");
+
+        $inventor->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'type' => $request->type,
+            'current' => $request->current,
+            'photo' => $fileNamePhoto2,
+        ]);
+
+        return redirect()->route('home');
+    }
+
+    public function store(Request $request)
+    {
+        $host = $request->getSchemeAndHttpHost();
+
+        $photo = $request->photo;
+        $fileNamePhoto = time() . '_' . $photo->getClientOriginalName();
+        $fileNamePhoto2 = $host . '/storage/' . $fileNamePhoto;
+        $photo->move(public_path('storage'), $fileNamePhoto);
+
+        $inventor = Inventori::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'type' => $request->type,
+            'photo' => $fileNamePhoto2,
+            'current' => $request->total,
+            'total' => $request->total,
+        ]);
+
+        return redirect()->route('home');
+    }
+
+    public function destroy($id)
+    {
+        Inventori::where('id',$id)->delete();
+
+        return redirect()->route('home');
+    }
+
+    public function profile(Request $request)
+    {
+        User::where('id',Auth::user()->id)
+        ->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        return redirect()->route('home');
     }
 }
